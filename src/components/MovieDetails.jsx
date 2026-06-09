@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 import { getMovieDetails } from '../call/movieID';
-import { Play, ArrowLeft, Star, Clock, Calendar } from 'lucide-react';
+import { Play, ArrowLeft, Star, Clock, Calendar, X } from 'lucide-react';
 import './MovieDetails.css';
 
 const MovieDetails = () => {
@@ -10,6 +11,7 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showTrailer, setShowTrailer] = useState(false);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -93,10 +95,10 @@ const MovieDetails = () => {
             
             <div className="details-actions">
               {movie.trailer ? (
-                <a href={movie.trailer.url} target="_blank" rel="noreferrer" className="action-btn play">
+                <button className="action-btn play" onClick={() => setShowTrailer(true)}>
                   <Play size={20} fill="black" />
                   <span>Watch Trailer</span>
-                </a>
+                </button>
               ) : (
                 <button className="action-btn play disabled">
                   <Play size={20} fill="black" />
@@ -129,6 +131,23 @@ const MovieDetails = () => {
           </div>
         </div>
       </div>
+
+      {showTrailer && movie.trailer && (
+        <div className="trailer-modal" onClick={() => setShowTrailer(false)}>
+          <button className="close-modal-btn" onClick={() => setShowTrailer(false)}>
+            <X size={32} />
+          </button>
+          <div className="trailer-modal-content" onClick={e => e.stopPropagation()}>
+            <ReactPlayer 
+              url={movie.trailer.url} 
+              playing 
+              controls 
+              width="100%" 
+              height="100%" 
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
