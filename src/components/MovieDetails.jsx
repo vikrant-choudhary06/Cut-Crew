@@ -138,13 +138,25 @@ const MovieDetails = () => {
             <X size={32} />
           </button>
           <div className="trailer-modal-content" onClick={e => e.stopPropagation()}>
-            <ReactPlayer 
-              url={movie.trailer.url} 
-              playing 
-              controls 
-              width="100%" 
-              height="100%" 
-            />
+            {movie.trailer.embedUrl ? (
+              <iframe
+                src={movie.trailer.embedUrl}
+                width="100%"
+                height="100%"
+                allowFullScreen
+                frameBorder="0"
+                title="Movie Trailer"
+                style={{ backgroundColor: 'black' }}
+              />
+            ) : (
+              <ReactPlayer 
+                url={movie.trailer.url} 
+                playing 
+                controls 
+                width="100%" 
+                height="100%" 
+              />
+            )}
           </div>
         </div>
       )}
