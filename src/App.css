@@ -1,34 +1,47 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--sans);
-  background-color: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-}
-
 .app-container {
   display: flex;
   min-height: 100vh;
-  width: 100vw;
-  background-color: var(--bg);
+  width: 100%;
+  background-color: var(--bg-color);
+  position: relative;
 }
 
 .main-content {
   flex: 1;
-  margin-left: 260px; /* Exact width of the sidebar */
-  width: calc(100% - 260px);
+  min-height: 100vh;
+  margin-left: 280px; /* Sidebar width */
+  display: flex;
+  flex-direction: column;
   position: relative;
-  display: block; /* Ensure it behaves as a block to contain Hero */
+  background-color: var(--bg-color);
+  padding-bottom: 3rem;
+  transition: margin-left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Collapsed Sidebar Adjustment */
+.sidebar-collapsed .main-content {
+  margin-left: 80px;
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 80px; /* Compact sidebar on medium screens */
+  }
+  .sidebar-collapsed .main-content {
+    margin-left: 80px;
+  }
 }
 
 @media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
   .main-content {
     margin-left: 0;
     width: 100%;
+    min-height: auto;
+  }
+  .sidebar-collapsed .main-content {
+    margin-left: 0;
   }
 }

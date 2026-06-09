@@ -1,43 +1,101 @@
-import React from 'react';
-import { Home, Film, Tv, LayoutGrid, Heart, User } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, Search, SlidersHorizontal, FileText, Bell, X } from 'lucide-react';
 import './Navbar.css';
 
-const Navbar = () => {
-  return (
-    <nav className="navbar">
-      <div className="navbar-logo">
-        <h1>Cut Crew</h1>
-      </div>
-      
-      <div className="navbar-links">
-        <a href="#home" className="nav-item">
-          <Home className="nav-icon" />
-          <span>Home</span>
-        </a>
-        <a href="#movies" className="nav-item">
-          <Film className="nav-icon" />
-          <span>Movies</span>
-        </a>
-        <a href="#shows" className="nav-item">
-          <Tv className="nav-icon" />
-          <span>Show</span>
-        </a>
-        <a href="#genre" className="nav-item">
-          <LayoutGrid className="nav-icon" />
-          <span>Genre</span>
-        </a>
-        <a href="#wishlist" className="nav-item">
-          <Heart className="nav-icon" />
-          <span>Wishlist</span>
-        </a>
-      </div>
+const Navbar = ({ searchQuery, setSearchQuery }) => {
+  const navigate = useNavigate();
+  const [isMobileSearchActive, setIsMobileSearchActive] = useState(false);
 
-      <div className="navbar-profile">
-        <div className="profile-btn">
-          <User className="profile-icon" />
+  return (
+    <header className={`navbar ${isMobileSearchActive ? 'mobile-search-active' : ''}`}>
+      {!isMobileSearchActive ? (
+        <>
+          <div className="navbar-left">
+            <div className="history-arrows">
+              <button className="arrow-btn" onClick={() => navigate(-1)} aria-label="Go Back">
+                <ChevronLeft size={20} />
+              </button>
+              <button className="arrow-btn" onClick={() => navigate(1)} aria-label="Go Forward">
+                <ChevronRight size={20} />
+              </button>
+            </div>
+            
+            <div className="search-container desktop-search">
+              <Search className="search-icon" size={18} />
+              <input 
+                type="text" 
+                placeholder="Search everything" 
+                className="search-input" 
+                value={searchQuery}
+                onChange={(e) => {
+                  // If not on homepage, navigate to homepage to display search results
+                  if (window.location.pathname !== '/') {
+                    navigate('/');
+                  }
+                  setSearchQuery(e.target.value);
+                }}
+              />
+              <button className="filter-btn" aria-label="Filters">
+                <SlidersHorizontal size={16} />
+              </button>
+            </div>
+          </div>
+
+          <div className="navbar-right">
+            <button 
+              className="nav-action-btn mobile-search-trigger" 
+              onClick={() => setIsMobileSearchActive(true)}
+              aria-label="Open Search"
+            >
+              <Search size={20} />
+            </button>
+
+            <button className="nav-action-btn activity-btn" aria-label="Activity">
+              <FileText size={20} />
+            </button>
+            <button className="nav-action-btn notify" aria-label="Notifications">
+              <Bell size={20} />
+              <span className="notification-badge"></span>
+            </button>
+            <div className="navbar-profile-avatar">
+              <img 
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=60" 
+                alt="User Profile" 
+                className="profile-img"
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="mobile-search-overlay">
+          <Search className="search-icon" size={18} />
+          <input 
+            type="text" 
+            placeholder="Search everything..." 
+            className="search-input mobile-search-input" 
+            autoFocus
+            value={searchQuery}
+            onChange={(e) => {
+              if (window.location.pathname !== '/') {
+                navigate('/');
+              }
+              setSearchQuery(e.target.value);
+            }}
+          />
+          <button 
+            className="close-search-btn" 
+            onClick={() => {
+              setIsMobileSearchActive(false);
+              setSearchQuery('');
+            }}
+            aria-label="Close Search"
+          >
+            <X size={20} />
+          </button>
         </div>
-      </div>
-    </nav>
+      )}
+    </header>
   );
 };
 
