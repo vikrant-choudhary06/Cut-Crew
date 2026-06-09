@@ -1,141 +1,303 @@
-.movie-row-container {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  padding: 0 4rem;
-  position: relative;
-  z-index: 10;
-}
-
-.row-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #fff;
-  letter-spacing: 0.5px;
-}
-
-.row-wrapper {
-  position: relative;
+.new-movie-row-container {
   display: flex;
-  align-items: center;
-}
-
-.movie-row {
-  display: flex;
-  gap: 1.2rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none; /* Firefox */
-  scroll-behavior: smooth;
-  padding: 1.5rem 0;
-  margin: -1.5rem 0; /* To accommodate hover scale */
-}
-
-.movie-row::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
-}
-
-.movie-card {
-  min-width: 220px;
-  max-width: 220px;
-  height: 330px;
-  position: relative;
-  border-radius: 6px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background: var(--border);
-  flex-shrink: 0;
-}
-
-.movie-card:hover {
-  transform: scale(1.06);
-  z-index: 10;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
-}
-
-.movie-poster {
+  padding: 2.5rem 4rem 1.5rem;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  gap: 3.5rem;
+  align-items: flex-start;
+  background-color: #0c0c0e;
 }
 
-.movie-info {
+/* Left Column: Title and subtitle */
+.new-row-left-header {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+}
+
+.new-row-vertical-title {
+  display: flex;
+  flex-direction: column;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--accent-color);
+  line-height: 1.1;
+  font-family: var(--heading);
+  letter-spacing: -0.5px;
+}
+
+.title-word-block {
+  text-transform: uppercase;
+}
+
+.new-row-drag-subtitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-top: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* Right Column: Scrollable cards container */
+.new-row-right-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: visible; /* Allow rank numbers to overflow cards slightly */
+}
+
+.new-movie-row {
+  display: flex;
+  gap: 1.8rem;
+  overflow-x: auto;
+  overflow-y: visible; /* For overlays */
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  padding: 0.5rem 1.2rem 2.5rem 0.5rem; /* Padding bottom for text overlays and rankings */
+  margin: 0 -0.5rem -1.5rem;
+}
+
+.new-movie-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Slider Navigation Arrows */
+.new-slider-arrow {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem 1rem 1rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.movie-card:hover .movie-info {
-  opacity: 1;
-}
-
-.movie-card-title {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
-}
-
-.slider-arrow {
-  position: absolute;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
-  z-index: 20;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  width: 45px;
-  height: 45px;
+  z-index: 50;
+  background: rgba(12, 12, 14, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  opacity: 0;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
+  opacity: 0.7;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(8px);
 }
 
-.row-wrapper:hover .slider-arrow {
+.new-row-right-wrapper:hover .new-slider-arrow {
+  opacity: 0.9;
+}
+
+.new-slider-arrow:hover {
   opacity: 1;
-}
-
-.slider-arrow:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--accent-color);
+  border-color: var(--accent-color);
   transform: translateY(-50%) scale(1.1);
-  border-color: white;
 }
 
-.slider-arrow.left {
-  left: -22px;
+.new-slider-arrow.left {
+  left: -19px;
 }
 
-.slider-arrow.right {
-  right: -22px;
+.new-slider-arrow.right {
+  right: -19px;
 }
 
-.row-loading {
-  padding: 2rem 4rem;
-  font-size: 1.2rem;
-  color: var(--text);
+/* Latest Release Cards */
+.new-latest-movie-card {
+  min-width: 195px;
+  max-width: 195px;
+  height: 290px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1.5px solid rgba(255, 255, 255, 0.05);
+  background: #121216;
+  flex-shrink: 0;
+  transition: var(--transition-smooth);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.new-latest-movie-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+.new-latest-card-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-smooth);
+}
+
+.new-latest-movie-card:hover .new-latest-card-poster {
+  transform: scale(1.04);
+}
+
+.new-latest-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.2rem 0.8rem 0.8rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.45) 60%, transparent 100%);
+  text-align: center;
+}
+
+.new-latest-card-title {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  letter-spacing: 0.3px;
+  font-family: var(--sans);
+}
+
+/* Trending Movies Cards (with ranking) */
+.new-trending-movie-card {
+  min-width: 195px;
+  max-width: 195px;
+  height: 290px;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: var(--transition-smooth);
+}
+
+.new-trending-movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.new-trending-card-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: var(--transition-smooth);
+}
+
+.new-trending-movie-card:hover .new-trending-card-poster {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  transform: scale(1.02);
+}
+
+.new-trending-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.2rem 0.8rem 0.8rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.45) 60%, transparent 100%);
+  text-align: center;
+  border-radius: 0 0 12px 12px;
+}
+
+.new-trending-card-title {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  letter-spacing: 0.3px;
+  font-family: var(--sans);
+}
+
+.new-trending-rank-overlay {
+  position: absolute;
+  bottom: -15px;
+  right: -5px;
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+  -webkit-text-stroke: 2.5px #000;
+  text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.9);
+  font-family: var(--heading);
+  pointer-events: none;
+  z-index: 10;
+  transition: var(--transition-smooth);
+}
+
+.new-trending-movie-card:hover .new-trending-rank-overlay {
+  transform: scale(1.05) translate(-2px, -2px);
+  text-shadow: 6px 6px 20px rgba(0, 0, 0, 0.95);
+}
+
+/* Select Genere Cards */
+.new-genre-card {
+  min-width: 195px;
+  max-width: 195px;
+  height: 250px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: var(--transition-smooth);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.new-genre-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+  filter: brightness(1.1);
+}
+
+.new-genre-card-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: var(--heading);
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .new-movie-row-container {
+    padding: 2rem 2rem 1rem;
+    gap: 2rem;
+  }
+  .new-row-left-header {
+    width: 150px;
+  }
+  .new-row-vertical-title {
+    font-size: 1.8rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .movie-row-container {
-    padding: 0 1.5rem;
+  .new-movie-row-container {
+    flex-direction: column;
+    padding: 1.5rem 1.5rem 0.5rem;
+    gap: 1rem;
   }
-  .movie-card {
-    min-width: 140px;
-    height: 210px;
+  .new-row-left-header {
+    width: 100%;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 0.5rem;
   }
-  .slider-arrow {
-    display: none; /* Mobile users will swipe */
+  .new-row-vertical-title {
+    flex-direction: row;
+    gap: 6px;
+    font-size: 1.5rem;
+  }
+  .new-row-drag-subtitle {
+    margin-top: 0;
+  }
+  .new-slider-arrow {
+    display: none; /* Swipe scroll on mobile */
   }
 }
